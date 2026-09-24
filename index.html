@@ -1,100 +1,1148 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber SPA OS - NFC Gateway</title>
+    <title>Słoneczny Cypr: Ciekawostki, Kuchnia & Wielki Quiz</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyprus: {
+                            copper: '#D47600',
+                            copperLight: '#F59E0B',
+                            sea: '#0077B6',
+                            sand: '#FDFBF7'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Cinzel', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome 6 Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        body {
-            background-color: #03050a;
-            color: #00f0ff;
-            font-family: 'Segoe UI', monospace, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
+        .gradient-copper {
+            background: linear-gradient(135deg, #F59E0B 0%, #D47600 50%, #B45309 100%);
         }
-        .scanner-ring {
-            width: 150px;
-            height: 150px;
-            border: 3px dashed #00f0ff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            margin-bottom: 30px;
-            animation: rotate 8s linear infinite;
+        .hero-bg {
+            background-color: #0f172a;
+            background-image: radial-gradient(at 10% 20%, rgba(212, 118, 0, 0.25) 0px, transparent 50%),
+                              radial-gradient(at 90% 80%, rgba(2, 132, 199, 0.2) 0px, transparent 50%);
         }
-        .pulse {
-            position: absolute;
-            width: 130px;
-            height: 130px;
-            border: 2px solid #00ff66;
-            border-radius: 50%;
-            animation: pulseGlow 2s ease-out infinite;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
         }
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
-        @keyframes pulseGlow {
-            0% { transform: scale(0.6); opacity: 1; }
-            100% { transform: scale(1.3); opacity: 0; }
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        h2 { font-size: 18px; letter-spacing: 2px; margin: 10px 0; text-transform: uppercase; }
-        p { color: #64748b; font-size: 12px; max-width: 280px; }
     </style>
 </head>
-<body>
+<body class="bg-cyprus-sand text-slate-800 font-sans antialiased selection:bg-cyprus-copper selection:text-white">
 
-    <div class="pulse"></div>
-    <div class="scanner-ring">📳</div>
-    
-    <h2 id="status">ZAKODOWANA BRAMKA NFC</h2>
-    <p id="info">Zbliż kartę lub brelok administratora do tyłu obudowy telefonu, aby uzyskać natychmiastowy dostęp...</p>
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-2xl gradient-copper flex items-center justify-center text-white text-xl shadow-md group-hover:scale-105 transition-transform">
+                    🇨🇾
+                </div>
+                <div>
+                    <span class="font-serif font-black text-xl text-slate-900 tracking-tight block leading-tight">CYPR EXPLORER</span>
+                    <span class="text-xs text-cyprus-copper font-bold tracking-widest uppercase">Ciekawostki & Quiz</span>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-700">
+                <a href="#ciekawostki" class="hover:text-cyprus-copper transition-colors flex items-center gap-1.5"><i class="fa-solid fa-utensils text-cyprus-sea"></i> Kuchnia & Język</a>
+                <a href="#quiz-section" class="hover:text-cyprus-copper transition-colors flex items-center gap-1.5"><i class="fa-solid fa-award text-amber-500"></i> Quiz z Certyfikatem</a>
+                <a href="#uczestnicy-section" class="hover:text-cyprus-copper transition-colors flex items-center gap-1.5"><i class="fa-solid fa-users text-emerald-600"></i> Lista Uczestników</a>
+            </nav>
+
+            <a href="#quiz-section" class="px-5 py-2.5 rounded-xl gradient-copper text-white font-bold text-sm shadow-md hover:shadow-lg hover:opacity-95 transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+                <i class="fa-solid fa-play"></i> Dołącz do Quizu
+            </a>
+        </div>
+    </header>
+
+    <section class="hero-bg text-white py-16 lg:py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-semibold text-amber-300">
+                        <i class="fa-solid fa-sun text-amber-400"></i> Ponad 330 dni słonecznych w roku
+                    </div>
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+                        Odkryj Sekrety <span class="text-transparent bg-clip-text gradient-copper">Słonecznego Cypru</span>
+                    </h1>
+                    <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+                        Poznaj wyjątkowe tradycje kulinarne z serem Halloumi, unikalny dialekt grecko-cypryjski, bogatą historię oraz weź udział w Wielkim Quizie z nagrodą – imiennym certyfikatem!
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="#quiz-section" class="px-7 py-3.5 rounded-2xl gradient-copper text-white font-bold text-base shadow-lg shadow-amber-600/30 hover:scale-105 transition-transform flex items-center gap-3">
+                            <i class="fa-solid fa-graduation-cap text-xl"></i> Rozwiąż Quiz i Odbierz Certyfikat
+                        </a>
+                        <a href="#ciekawostki" class="px-7 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-semibold text-base backdrop-blur-sm transition border border-white/20 flex items-center gap-2">
+                            <i class="fa-solid fa-compass"></i> Zwiedzaj Ciekawostki
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="glass-dark p-6 rounded-3xl w-full max-w-md shadow-2xl space-y-4 border border-amber-500/20">
+                        <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
+                            <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-circle-info"></i> Szybkie Fakty
+                            </span>
+                            <span class="text-xs text-slate-400">Republika Cypryjska</span>
+                        </div>
+                        <ul class="space-y-3 text-sm text-slate-200">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-coins text-amber-400 mt-1"></i>
+                                <span>Nazwa miedzi <strong>Cuprum</strong> pochodzi bezpośrednio od łacińskiej nazwy wyspy Cypr.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-cheese text-amber-400 mt-1"></i>
+                                <span>Ojczyzna sera <strong>Halloumi</strong> oraz najstarszego wina na świecie <strong>Commandaria</strong>.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-volcano text-amber-400 mt-1"></i>
+                                <span>Miejsce narodzin mitologicznej bogini <strong>Afrodyty</strong> przy skale w Pafos.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ciekawostki" class="py-20 bg-slate-50 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-cyprus-sea font-bold text-xs uppercase tracking-widest block mb-2">Kultura, Smaki & Geografia</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-black text-slate-900">Potrawy, Język, Mitologia i Tradycje</h2>
+                <p class="text-slate-600 mt-3 text-base">
+                    Cypr to fascynujące połączenie kultury greckiej, śródziemnomorskiego klimatu i tysiącletniej historii.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Fact 1: Halloumi -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-shadow border border-slate-200 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl font-bold">
+                            🧀
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-900">Królewski Ser Halloumi</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Tradycyjny cypryjski ser wytwarzany z mleka owczego i koziego z dodatkiem mięty. Posiada chronioną nazwę unijną (ChNP) i dzięki specjalnej produkcji nie topi się na grillu!
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-amber-600 uppercase tracking-wider">
+                        Tradycja Kulinarna
+                    </div>
+                </div>
+
+                <!-- Fact 2: Souvla & Sheftalia -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-shadow border border-slate-200 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center text-2xl font-bold">
+                            🍢
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-900">Souvla, Sheftalia & Meze</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            **Souvla** to duże kawałki mięsa powoli opiekane na węglowym rożnie. **Sheftalia** to pyszne soczyste kiełbaski z ziołami zawijane w błonę tłuszczową. Podawane są w ramach biesiady *Meze*.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-rose-600 uppercase tracking-wider">
+                        Cypryjski Grill
+                    </div>
+                </div>
+
+                <!-- Fact 3: Commandaria -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-shadow border border-slate-200 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center text-2xl font-bold">
+                            🍷
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-900">Najstarsze Wino Commandaria</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Uznawane za najstarsze wciąż produkowane wino na świecie (ponad 800 lat tradycji). Słodkie wino deserowe wytwarzane ze podsuszanych na słońcu winogron odmian Xynisteri i Mavro.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-purple-600 uppercase tracking-wider">
+                        Historia Winiarstwa
+                    </div>
+                </div>
+
+                <!-- Fact 4: Dialekt Kypriaka -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-shadow border border-slate-200 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center text-2xl font-bold">
+                            🗣️
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-900">Język i Dialekt Kypriaka</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Językiem urzędowym jest nowogrecki, jednak Cypryjczycy posługują się na co dzień dialektem **Kypriaka**. Zachował on słowa ze starożytnej greki arkadyjskiej!
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-sky-600 uppercase tracking-wider">
+                        Więzy z Grecją
+                    </div>
+                </div>
+
+                <!-- Fact 5: Mitologia Afrodyty -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-shadow border border-slate-200 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-pink-100 text-pink-700 flex items-center justify-center text-2xl font-bold">
+                            🏛️
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-900">Skała Afrodyty w Pafos</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Według mitów greckich to u wybrzeży Pafos (*Petra tou Romiou*) grecka bogini piękna Afrodyta wyłoniła się z piany morskiej. Opłynięcie skały wpław ma przynosić młodość!
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-pink-600 uppercase tracking-wider">
+                        Mitologia Grecka
+                    </div>
+                </div>
+
+                <!-- Fact 6: Dzikie Osły i Góry Troodos -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-shadow border border-slate-200 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl font-bold">
+                            🫏
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-900">Dzikie Osły & Narty w Górach</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Na Półwyspie Karpas wolno żyją chronione dzikie osły. Z kolei w paśmie górskim Troodos na szczycie Olimpu zimą można jeździć na nartach!
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-emerald-600 uppercase tracking-wider">
+                        Niezwykła Przyroda
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 bg-amber-500 text-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-amber-400 font-bold text-xs uppercase tracking-wider">
+                <i class="fa-solid fa-trophy"></i> Certyfikat & Baza Uczestników
+            </div>
+            <h2 class="font-serif text-3xl sm:text-4xl font-black">Zdobądź Tytuł i Imienny Certyfikat Eksperta</h2>
+            <p class="max-w-2xl mx-auto text-slate-900 font-medium text-sm sm:text-base">
+                Każdy uczestnik po rozwiązaniu testu otrzymuje **Oficjalny Imienny Certyfikat (grafika Canvas w wysokiej rozdzielczości)** do pobrania oraz zostaje wpisany na publiczną **Listę Uczestników**!
+            </p>
+        </div>
+    </section>
+
+    <section id="quiz-section" class="py-20 bg-slate-900 text-white relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center mb-10">
+                <span class="text-amber-400 font-bold text-xs uppercase tracking-widest block mb-2">Interaktywny Test Wiedzy</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-black text-white">Wielki Quiz o Cyprze</h2>
+                <p class="text-slate-400 text-sm mt-2">Wpisz swoje dane, wybierz poziom i sprawdź wiedzę. Pytania i opcje są losowane przy każdej próbie!</p>
+            </div>
+
+            <!-- QUIZ CONTAINER CARD -->
+            <div class="glass-dark rounded-3xl p-6 sm:p-10 shadow-2xl border border-slate-800">
+                
+                <!-- STEP 1: SETUP, NAME & DIFFICULTY -->
+                <div id="quizSetupStep" class="space-y-8">
+                    
+                    <!-- Player Identity Input -->
+                    <div class="bg-slate-800/80 p-6 rounded-2xl border border-slate-700/80 space-y-3">
+                        <label for="userNameInput" class="block font-bold text-slate-200 text-sm sm:text-base flex items-center gap-2">
+                            <i class="fa-solid fa-user-pen text-amber-400"></i> Podaj swoje Imię i Nazwisko (do certyfikatu i listy uczestników):
+                        </label>
+                        <input type="text" id="userNameInput" placeholder="np. Jan Kowalski" class="w-full px-4 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 font-semibold text-base">
+                    </div>
+
+                    <!-- Difficulty Selection Grid (4 Levels with specific counts) -->
+                    <div class="space-y-4">
+                        <span class="block font-bold text-slate-300 text-sm uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group text-amber-400"></i> Wybierz Poziom Trudności:
+                        </span>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Medium - 5 Questions -->
+                            <button id="btn-medium" onclick="selectDifficulty('medium')" class="p-5 rounded-2xl bg-slate-800 border-2 border-slate-700 hover:border-amber-400 text-left transition transform hover:-translate-y-0.5 group">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-white group-hover:text-amber-300 text-base">1. Poziom Średni</span>
+                                    <span class="text-xs px-2.5 py-1 bg-amber-500/20 text-amber-300 font-bold rounded-lg">5 Pytani</span>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-2">Przystępny wstęp: pytania o stolicę, morze, ser Halloumi, Afrodytę i słońce.</p>
+                            </button>
+
+                            <!-- Hard - 8 Questions -->
+                            <button id="btn-hard" onclick="selectDifficulty('hard')" class="p-5 rounded-2xl bg-slate-800 border-2 border-slate-700 hover:border-amber-400 text-left transition transform hover:-translate-y-0.5 group">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-white group-hover:text-amber-300 text-base">2. Poziom Trudny</span>
+                                    <span class="text-xs px-2.5 py-1 bg-sky-500/20 text-sky-300 font-bold rounded-lg">8 Pytani</span>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-2">Szersza wiedza: potrawy Souvla, wino Commandaria, osły, języki i miedź.</p>
+                            </button>
+
+                            <!-- Very Hard - 10 Questions -->
+                            <button id="btn-very_hard" onclick="selectDifficulty('very_hard')" class="p-5 rounded-2xl bg-slate-800 border-2 border-slate-700 hover:border-amber-400 text-left transition transform hover:-translate-y-0.5 group">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-white group-hover:text-amber-300 text-base">3. Bardzo Trudny</span>
+                                    <span class="text-xs px-2.5 py-1 bg-purple-500/20 text-purple-300 font-bold rounded-lg">10 Pytani</span>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-2">Zaawansowany: szczyt Olimp, ruch lewostronny, muflon cypryjski i historia.</p>
+                            </button>
+
+                            <!-- Extreme - 12 Questions (friendly, slightly harder than medium) -->
+                            <button id="btn-extreme" onclick="selectDifficulty('extreme')" class="p-5 rounded-2xl bg-slate-800 border-2 border-slate-700 hover:border-amber-400 text-left transition transform hover:-translate-y-0.5 group">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-white group-hover:text-amber-300 text-base">4. Najtrudniejszy</span>
+                                    <span class="text-xs px-2.5 py-1 bg-rose-500/20 text-rose-300 font-bold rounded-lg">12 Pytani</span>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-2">Kompletny test (lekko trudniejszy od średniego): 12 pytań z ciekawostek o wyspie!</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Start Quiz Button -->
+                    <button onclick="startQuiz()" class="w-full py-4 rounded-2xl gradient-copper text-white font-black text-lg shadow-xl shadow-amber-600/30 hover:scale-[1.01] transition transform flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-circle-play text-2xl"></i> Rozpocznij Quiz (Losowa Kolejność)
+                    </button>
+                </div>
+
+                <!-- STEP 2: ACTIVE QUIZ QUESTIONS -->
+                <div id="quizActiveStep" class="hidden space-y-6">
+                    <!-- Progress Bar & Info Header -->
+                    <div class="space-y-2 border-b border-slate-800 pb-4">
+                        <div class="flex justify-between text-xs font-bold text-slate-400">
+                            <span id="quizUserLabel" class="text-amber-400">Gracz: -</span>
+                            <span id="quizLevelLabel" class="text-slate-300">Poziom: -</span>
+                            <span id="quizCounterLabel" class="text-sky-400">Pytanie 1/5</span>
+                        </div>
+                        <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                            <div id="quizProgressBar" class="h-full gradient-copper transition-all duration-300 w-0"></div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Question Display -->
+                    <h3 id="questionText" class="font-serif text-xl sm:text-2xl font-bold text-white leading-snug">
+                        Ładowanie treści pytania...
+                    </h3>
+
+                    <!-- Answers Options Container -->
+                    <div id="optionsContainer" class="space-y-3 pt-2">
+                        <!-- Injected by JavaScript -->
+                    </div>
+
+                    <!-- Explanation & Feedback Box -->
+                    <div id="feedbackBox" class="hidden p-4 rounded-xl border text-sm font-medium flex items-start gap-3">
+                        <!-- Injected JS feedback -->
+                    </div>
+
+                    <!-- Next Question Button -->
+                    <div class="flex justify-end pt-2">
+                        <button id="nextQuestionBtn" onclick="nextQuestion()" class="hidden px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold text-sm transition flex items-center gap-2">
+                            Następne Pytanie <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: RESULT & CERTIFICATE GENERATOR -->
+                <div id="quizResultStep" class="hidden space-y-8 text-center">
+                    <div class="space-y-3">
+                        <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 text-3xl font-bold mx-auto flex items-center justify-center border border-emerald-500/40">
+                            🏆
+                        </div>
+                        <h3 class="font-serif text-3xl font-black text-white">Gratulacje! Quiz Ukończony!</h3>
+                        <p class="text-slate-300 text-sm">Twoje wyniki i imię zostały zarejestrowane na oficjalnej liście uczestników.</p>
+                    </div>
+
+                    <!-- Score Badges Grid -->
+                    <div class="grid grid-cols-3 gap-3 bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
+                        <div>
+                            <span class="block text-xs text-slate-400">Twój Wynik</span>
+                            <span id="finalScoreVal" class="text-xl font-bold text-amber-400">0/0</span>
+                        </div>
+                        <div>
+                            <span class="block text-xs text-slate-400">Procent</span>
+                            <span id="finalPercentVal" class="text-xl font-bold text-sky-400">0%</span>
+                        </div>
+                        <div>
+                            <span class="block text-xs text-slate-400">Zdobyty Tytuł</span>
+                            <span id="finalRankVal" class="text-xs sm:text-sm font-bold text-emerald-400 block truncate">Adept</span>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Certificate Viewport -->
+                    <div class="space-y-3">
+                        <span class="block text-xs font-bold text-amber-400 uppercase tracking-widest">Podgląd Wygenerowanego Imiennego Certyfikatu (Canvas):</span>
+                        <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 shadow-2xl flex justify-center overflow-hidden">
+                            <canvas id="certificateCanvas" width="800" height="533" class="max-w-full h-auto rounded-lg shadow-md border border-amber-500/30"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap justify-center gap-4 pt-2">
+                        <button onclick="downloadCertificate()" class="px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition shadow-lg flex items-center gap-2">
+                            <i class="fa-solid fa-download"></i> Pobierz Certyfikat (PNG)
+                        </button>
+                        <button onclick="restartQuiz()" class="px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition border border-slate-700 flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-right"></i> Zagraj Ponownie (Nowy Los)
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="uczestnicy-section" class="py-16 bg-slate-100 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+                <div>
+                    <span class="text-cyprus-copper font-bold text-xs uppercase tracking-widest block">Oficjalna Rejestracja</span>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-black text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-users text-amber-600"></i> Lista Osób Biorących Udział w Quizie
+                    </h2>
+                </div>
+                <button onclick="clearLeaderboard()" class="px-4 py-2 bg-rose-100 hover:bg-rose-200 text-rose-800 text-xs font-bold rounded-lg transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-trash-can"></i> Wyczyść Historię
+                </button>
+            </div>
+
+            <!-- Participant Table -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-700">
+                        <thead class="bg-slate-50 text-xs uppercase text-slate-500 font-bold border-b border-slate-200">
+                            <tr>
+                                <th class="py-3.5 px-4">#</th>
+                                <th class="py-3.5 px-4">Imię i Nazwisko</th>
+                                <th class="py-3.5 px-4">Poziom</th>
+                                <th class="py-3.5 px-4">Wynik</th>
+                                <th class="py-3.5 px-4">Tytuł Certyfikatu</th>
+                                <th class="py-3.5 px-4 text-right">Data Próby</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardTableBody" class="divide-y divide-slate-100 font-medium">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="emptyLeaderboardMsg" class="p-8 text-center text-slate-500 text-sm hidden">
+                    <i class="fa-solid fa-clipboard-user text-3xl text-slate-300 mb-2 block"></i>
+                    Brak zarejestrowanych prób. Bądź pierwszą osobą, która rozwiąże quiz i wpisze się na listę!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-900 text-xs sm:text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+            <div class="flex justify-center items-center gap-2 text-white font-serif font-bold text-lg">
+                <span>🇨🇾</span> CYPR EXPLORER 2026
+            </div>
+            <p class="max-w-md mx-auto text-slate-500">
+                Interaktywna platforma edukacyjna poświęcona kulturze, tradycjom kulinarnym i geografii słonecznego Cypru.
+            </p>
+            <div class="pt-4 border-t border-slate-900 text-slate-600">
+                &copy; 2026 Cypr Explorer. Wszystkie prawa zastrzeżone.
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Ta funkcja odpala się AUTOMATYCZNIE natychmiast po wejściu na stronę
-        async function startAutoscan() {
-            const statusText = document.getElementById('status');
-            const infoText = document.getElementById('info');
+        // Web Audio Synthesizer for UI Effects
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-            if ('NDEFReader' in window) {
-                try {
-                    const ndef = new NDEFReader();
-                    // Uruchamiamy sprzętowy skaner w tle
-                    await ndef.scan();
-                    
-                    ndef.onreading = event => {
-                        // KARTA WYKRYTA!
-                        statusText.innerText = "🔓 DOSTĘP PRZYZNANY";
-                        statusText.style.color = "#00ff66";
-                        infoText.innerText = `Autoryzacja seryjna ID: ${event.serialNumber}. Przekierowanie...`;
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
 
-                        // Zapisujemy w pamięci przeglądarki token bezpieczeństwa, że przeszedłeś przez NFC
-                        localStorage.setItem('cyberSpaAuth', 'GRANTED_BY_NFC');
+            const now = audioCtx.currentTime;
 
-                        // Automatyczne i natychmiastowe przejście do Twojego panelu!
-                        setTimeout(() => {
-                            window.location.href = 'jacek.html';
-                        }, 800);
-                    };
-
-                } catch (error) {
-                    statusText.innerText = "❌ BŁĄD URUCHOMIENIA";
-                    statusText.style.color = "#ff3333";
-                    infoText.innerText = "Przeglądarka zablokowała dostęp do sensora NFC. Upewnij się, że masz włączone NFC w telefonie.";
-                }
-            } else {
-                statusText.innerText = "❌ BRAK MODUŁU WEB NFC";
-                statusText.style.color = "#ff3333";
-                infoText.innerText = "Ta przeglądarka nie obsługuje automatycznego Web NFC. Uruchom tę stronę w Google Chrome na Androidzie.";
+            if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, now);
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            } else if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.setValueAtTime(180, now + 0.1);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            } else if (type === 'win') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.setValueAtTime(659.25, now + 0.12);
+                osc.frequency.setValueAtTime(783.99, now + 0.24);
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+                osc.start(now);
+                osc.stop(now + 0.6);
             }
         }
 
-        // Odpalamy skanowanie od razu przy załadowaniu okna
-        window.onload = startAutoscan;
+        // Complete Question Bank categorized by required amounts:
+        // Średni: 5 | Trudny: 8 | Bardzo Trudny: 10 | Najtrudniejszy: 12
+        const questionBank = {
+            medium: [
+                {
+                    q: "Jakie miasto jest oficjalną stolicą Republiki Cypryjskiej?",
+                    options: ["Nikozja (Lefkosia)", "Limassol", "Larnaka", "Pafos"],
+                    correct: 0,
+                    exp: "Nikozja to największe miasto i stolica Cypru, podzielona tzw. Zieloną Linią."
+                },
+                {
+                    q: "W jakim morzu leży malownicza wyspa Cypr?",
+                    options: ["W Morzu Śródziemnym", "W Morzu Bałtyckim", "W Morzu Czerwonym", "W Morzu Czarnym"],
+                    correct: 0,
+                    exp: "Cypr usytuowany jest we wschodniej części basenu Morza Śródziemnego."
+                },
+                {
+                    q: "Jaka grecka bogini piękna według mitologii wyłoniła się z piany morskiej u wybrzeży Pafos?",
+                    options: ["Afrodyta", "Atena", "Hera", "Artemida"],
+                    correct: 0,
+                    exp: "Afrodyta narodziła się u wybrzeży Pafos przy znanej skale Petra tou Romiou."
+                },
+                {
+                    q: "Jaki jest słynny cypryjski ser z mleka owczego i koziego, który nie topi się na grillu?",
+                    options: ["Halloumi", "Feta", "Mozzarella", "Gouda"],
+                    correct: 0,
+                    exp: "Ser Halloumi to symbol kulinarny Cypru posiadający chronioną nazwę pochodzenia."
+                },
+                {
+                    q: "Ile w przybliżeniu słonecznych dni w roku występuje na Cyprze?",
+                    options: ["Ponad 330 dni", "Około 150 dni", "Dokładnie 200 dni", "Mniej niż 100 dni"],
+                    correct: 0,
+                    exp: "Cypr oferuje słoneczną pogodę przez ponad 330 dni w ciągu roku!"
+                }
+            ],
+            hard: [
+                {
+                    q: "Jakie są dwa oficjalne języki państwowe w konstytucji Republiki Cypryjskiej?",
+                    options: ["Grecki i Turecki", "Angielski i Grecki", "Grecki i Włoski", "Francuski i Turecki"],
+                    correct: 0,
+                    exp: "Oficjalnymi językami państwowymi na Cyprze są grecki oraz turecki."
+                },
+                {
+                    q: "Jak nazywają się tradycyjne duże kawałki mięsa opiekane wolno na rożnie węglowym?",
+                    options: ["Souvla", "Paella", "Kebab", "Gulasz"],
+                    correct: 0,
+                    exp: "Souvla to absolutny klasyk cypryjskich spotkań i biesiad przy grillu."
+                },
+                {
+                    q: "Jak nazywa się tradycyjne cypryjskie wino deserowe, uważane za najstarsze nazwane wino świata?",
+                    options: ["Commandaria", "Retsina", "Porto", "Sherry"],
+                    correct: 0,
+                    exp: "Wino Commandaria produkowane jest bez przerwy od ponad 800 lat u podnóża gór Troodos."
+                },
+                {
+                    q: "Jak nazywa się cypryjski dialekt języka greckiego używany na co dzień przez mieszkańców?",
+                    options: ["Kypriaka", "Cypriotis", "Ellinika", "Doric"],
+                    correct: 0,
+                    exp: "Dialekt Kypriaka zachował rzadkie słownictwo ze starożytnej greki arkadyjskiej."
+                },
+                {
+                    q: "Na którym półwyspie na Cyprze żyją w stanie dzikim chronione osły cypryjskie?",
+                    options: ["Półwysep Karpas", "Półwysep Akamas", "Cape Greco", "Troodos"],
+                    correct: 0,
+                    exp: "Dziewiczy Półwysep Karpas w północno-wschodniej części słynie z osłów."
+                },
+                {
+                    q: "W jakim paśmie górskim na Cyprze zimą można jeździć na nartach na szczycie Olimpu?",
+                    options: ["Góry Troodos", "Góry Pindos", "Góry Olimpieńskie", "Góry Atlas"],
+                    correct: 0,
+                    exp: "Pasmo Troodos wznosi się na wysokość niemal 2000 m n.p.m. i oferuje trasy narciarskie."
+                },
+                {
+                    q: "Od jakiego bogatego minerału wywodzi się łacińska nazwa wyspy Cypr (Cuprum)?",
+                    options: ["Miedź", "Złoto", "Srebro", "Żelazo"],
+                    correct: 0,
+                    exp: "Słowo Cuprum (miedź) pochodzi od Cypru ze względu na bogate złoża starożytne."
+                },
+                {
+                    q: "Jak nazywają się cypryjskie kiełbaski z ziołami zawijane w błonę tłuszczową?",
+                    options: ["Sheftalia", "Moussaka", "Tzatziki", "Souvlaki"],
+                    correct: 0,
+                    exp: "Sheftalia to niezwykle soczysty specjał z rusztu."
+                }
+            ],
+            very_hard: [
+                {
+                    q: "Jak nazywa się słynna skała u wybrzeży Pafos, przy której według legendy narodziła się Afrodyta?",
+                    options: ["Petra tou Romiou", "Kavo Gkreko", "Avakas", "Cape Aspro"],
+                    correct: 0,
+                    exp: "Petra tou Romiou (Skała Greka) to legendarne miejsce narodzin bogini miłości."
+                },
+                {
+                    q: "Jaki jest najwyższy szczyt na Cyprze zlokalizowany w paśmie górskim Troodos (1952 m n.p.m.)?",
+                    options: ["Olimp (Mount Olympus)", "Kionia", "Madari", "Adelfoi"],
+                    correct: 0,
+                    exp: "Szczyt Olimp jest najwyższym punktem na cypryjskiej mapie geograficznej."
+                },
+                {
+                    q: "Czym charakteryzuje się dialekt grecko-cypryjski (Kypriaka)?",
+                    options: ["Zachował starożytne słowa arkadyjskie", "Używa alfabetu łacińskiego", "Jest identyczny z językiem w Atenach", "Powstał dopiero w XX wieku"],
+                    correct: 0,
+                    exp: "Kypriaka zawiera archaiczne zwroty i fonetykę ze starożytnej Grecji."
+                },
+                {
+                    q: "Jak nazywa się strefa buforowa pod zarządem ONZ dzieląca stolicę Cypru?",
+                    options: ["Zielona Linia (Green Line)", "Niebieska Linia", "Strefa Troodos", "Pas Neutralny"],
+                    correct: 0,
+                    exp: "Zielona Linia rozdziela południową i północną część Nikozji od 1964 roku."
+                },
+                {
+                    q: "Z jakich odmian winogron tradycyjnie produkuje się deserowe wino Commandaria?",
+                    options: ["Xynisteri i Mavro", "Chardonnay i Merlot", "Cabernet i Shiraz", "Pinot i Muscat"],
+                    correct: 0,
+                    exp: "Wino wytwarza się z białych winogron Xynisteri oraz czerwonych Mavro."
+                },
+                {
+                    q: "Jak nazywa się potrawa z liści winogron nadziewanych mięsem mielonym i ryżem?",
+                    options: ["Koupepia", "Tavas", "Stifado", "Kleftiko"],
+                    correct: 0,
+                    exp: "Koupepia to cypryjski odpowiednik gołąbków w liściach winogron."
+                },
+                {
+                    q: "W którym roku Republika Cypryjska uzyskała pełną niepodległość?",
+                    options: ["W 1960 roku", "W 1945 roku", "W 1974 roku", "W 2004 roku"],
+                    correct: 0,
+                    exp: "Cypr uzyskał niepodległość od Wielkiej Brytanii w 1960 roku."
+                },
+                {
+                    q: "Jaki ruch drogowy obowiązuje na Cyprze jako spuścizna po czasach brytyjskich?",
+                    options: ["Ruch lewostronny", "Ruch prawostronny", "Ruch zmienny", "Ruch prawostronny tylko na autostradach"],
+                    correct: 0,
+                    exp: "Na Cyprze jeździ się po lewej stronie jezdni."
+                },
+                {
+                    q: "Który gatunek dzikiej owcy o zakręconych rogach stanowi symbol przyrodniczy Cypru?",
+                    options: ["Muflon cypryjski", "Koziorożec", "Daniel", "Dzika kozica"],
+                    correct: 0,
+                    exp: "Muflon cypryjski (Agrino) żyje w lasach Paphos i jest symbolem wyspy."
+                },
+                {
+                    q: "Jak nazywa się popularne cypryjskie miasto z Nissi Beach znaną z białego piasku?",
+                    options: ["Ajia Napa (Ayia Napa)", "Kyrenia", "Polis", "Pissouri"],
+                    correct: 0,
+                    exp: "Ajia Napa na wschodzie wyspy słynie z pięknych plaż i przejrzystej wody."
+                }
+            ],
+            extreme: [
+                {
+                    q: "Od jakiego bogatego minerału wywodzi się łacińska nazwa wyspy Cypr (Cuprum)?",
+                    options: ["Miedź", "Złoto", "Srebro", "Żelazo"],
+                    correct: 0,
+                    exp: "Miedź wydobywano na Cyprze na wielką skalę już w starożytności."
+                },
+                {
+                    q: "Jaka potrawa z liści winogron jest obowiązkowym elementem cypryjskiego meze?",
+                    options: ["Koupepia", "Kleftiko", "Moussaka", "Tzatiki"],
+                    correct: 0,
+                    exp: "Koupepia przyprawiane są cynamonem i sokiem z cytryny."
+                },
+                {
+                    q: "W jakim mieście cypryjskim znajduje się międzynarodowe lotnisko oraz Słone Jezioro z flamingami?",
+                    options: ["Larnaka", "Limassol", "Pafos", "Nikozja"],
+                    correct: 0,
+                    exp: "Larnaka słynie ze Słonego Jeziora, gdzie zimą odpoczywają stada flamingów."
+                },
+                {
+                    q: "Które słynne wino deserowe pito na ślubie króla Ryszarda Lwie Serce w Limassol?",
+                    options: ["Commandaria", "Retsina", "Porto", "Sherry"],
+                    correct: 0,
+                    exp: "Ryszard Lwie Serce nazwał Commandarię 'winem królów i królem win'."
+                },
+                {
+                    q: "W którym mieście znajduje się największy port handlowy i luksusowa marina na Cyprze?",
+                    options: ["Limassol", "Pafos", "Larnaka", "Polis"],
+                    correct: 0,
+                    exp: "Limassol to biznesowe centrum i główny port handlowy wyspy."
+                },
+                {
+                    q: "Jak nazywa się strefa buforowa pod zarządem ONZ dzieląca wyspę Cypr?",
+                    options: ["Zielona Linia", "Granica Niebieska", "Strefa Pokoju", "Linia Demarkacyjna"],
+                    correct: 0,
+                    exp: "Patrole ONZ stacjonują na Zielonej Linii dzielącej wyspę."
+                },
+                {
+                    q: "Z jakiego mleka tradycyjnie produkuje się prawdziwy cypryjski ser Halloumi?",
+                    options: ["Z mieszanki mleka owczego i koziego", "Wyłącznie z mleka krowiego", "Z mleka wielbłądziego", "Z mleka bawolego"],
+                    correct: 0,
+                    exp: "Oryginalny receptura opiera się na mleku owczym i kozim z mięta."
+                },
+                {
+                    q: "Co oznacza popularny cypryjski zwrot 'Kopiaste' kierowany do gości?",
+                    options: ["Zaproszenie do stołu / Usiądź i zjedz z nami", "Do widzenia", "Dziękuję bardzo", "Smacznego po jedzeniu"],
+                    correct: 0,
+                    exp: "'Kopiaste' to słynne cypryjskie powitanie zapraszające do dzielenia się posiłkiem."
+                },
+                {
+                    q: "Jak nazywa się dziewiczy półwysep na zachodzie Cypru z widokowym Kanionem Avakas?",
+                    options: ["Półwysep Akamas", "Półwysep Karpas", "Półwysep Marathasa", "Półwysep Troodos"],
+                    correct: 0,
+                    exp: "Akamas to zapierający dech w piersiach park narodowy z plażą żółwi Lara Beach."
+                },
+                {
+                    q: "Jaką walutę przyjęła Republika Cypryjska w 2008 roku?",
+                    options: ["Euro", "Funt cypryjski", "Lira", "Dolar"],
+                    correct: 0,
+                    exp: "W 2008 roku Cypr wszedł do strefy Euro, zastępując funta cypryjskiego."
+                },
+                {
+                    q: "Które starożytne miasto na Cyprze słynie z mozaik rzymskich wpisanych na listę UNESCO?",
+                    options: ["Pafos", "Nikozja", "Kyrenia", "Famagusta"],
+                    correct: 0,
+                    exp: "Mozaiki w Parku Archeologicznym w Pafos należą do najpiękniejszych na świecie."
+                },
+                {
+                    q: "Dlaczego ser Halloumi nie topi się na gorącym grillu?",
+                    options: ["Przez podgrzewanie skrzepu w serwatce w wysokiej temperaturze", "Dzięki dodaniu mąki", "Z powodu zamrażania", "Przez polewanie oliwą"],
+                    correct: 0,
+                    exp: "Proces parzenia skrzepu nadaje mu odporność na wysoką temperaturę."
+                }
+            ]
+        };
+
+        // Quiz Application State
+        let quizState = {
+            userName: '',
+            difficulty: 'medium',
+            questions: [],
+            currentIndex: 0,
+            score: 0
+        };
+
+        // Fisher-Yates Randomizer Algorithm (shuffles questions & options every time)
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function selectDifficulty(diff) {
+            playSound('click');
+            quizState.difficulty = diff;
+
+            ['medium', 'hard', 'very_hard', 'extreme'].forEach(d => {
+                const btn = document.getElementById(`btn-${d}`);
+                if (btn) {
+                    if (d === diff) {
+                        btn.classList.add('ring-4', 'ring-amber-400', 'border-amber-400');
+                    } else {
+                        btn.classList.remove('ring-4', 'ring-amber-400', 'border-amber-400');
+                    }
+                }
+            });
+        }
+
+        function startQuiz() {
+            playSound('click');
+            const nameInput = document.getElementById('userNameInput');
+            const name = nameInput ? nameInput.value.trim() : '';
+
+            if (!name) {
+                alert('Proszę podać imię i nazwisko przed rozpoczęciem quizu!');
+                nameInput?.focus();
+                return;
+            }
+
+            quizState.userName = name;
+            quizState.currentIndex = 0;
+            quizState.score = 0;
+
+            // Fetch questions for selected level & shuffle order + options
+            const rawQuestions = questionBank[quizState.difficulty] || questionBank.medium;
+            
+            const randomizedQuestions = shuffleArray(rawQuestions).map(qObj => {
+                const indexedOptions = qObj.options.map((optText, origIdx) => ({ text: optText, origIdx }));
+                const shuffledOpts = shuffleArray(indexedOptions);
+                const newCorrectIndex = shuffledOpts.findIndex(o => o.origIdx === qObj.correct);
+
+                return {
+                    q: qObj.q,
+                    options: shuffledOpts.map(o => o.text),
+                    correct: newCorrectIndex,
+                    exp: qObj.exp
+                };
+            });
+
+            quizState.questions = randomizedQuestions;
+
+            // UI Step Transition
+            document.getElementById('quizSetupStep').classList.add('hidden');
+            document.getElementById('quizActiveStep').classList.remove('hidden');
+            document.getElementById('quizResultStep').classList.add('hidden');
+
+            document.getElementById('quizUserLabel').textContent = `Gracz: ${quizState.userName}`;
+            
+            const levelNames = {
+                medium: '1. Średni (5 pytań)',
+                hard: '2. Trudny (8 pytań)',
+                very_hard: '3. Bardzo Trudny (10 pytań)',
+                extreme: '4. Najtrudniejszy (12 pytań)'
+            };
+            document.getElementById('quizLevelLabel').textContent = `Poziom: ${levelNames[quizState.difficulty]}`;
+
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const qData = quizState.questions[quizState.currentIndex];
+            const total = quizState.questions.length;
+
+            document.getElementById('quizCounterLabel').textContent = `Pytanie ${quizState.currentIndex + 1} / ${total}`;
+            document.getElementById('quizProgressBar').style.width = `${((quizState.currentIndex) / total) * 100}%`;
+
+            document.getElementById('questionText').textContent = qData.q;
+
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+
+            const feedbackBox = document.getElementById('feedbackBox');
+            feedbackBox.classList.add('hidden');
+            document.getElementById('nextQuestionBtn').classList.add('hidden');
+
+            qData.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full text-left p-4 rounded-xl bg-slate-800 border border-slate-700 hover:border-amber-400 hover:bg-slate-700 transition flex items-center justify-between text-sm sm:text-base font-semibold text-slate-200 group';
+                btn.innerHTML = `
+                    <span class="flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-lg bg-slate-700 text-amber-300 group-hover:bg-amber-500 group-hover:text-slate-900 transition flex items-center justify-center font-bold text-xs">${String.fromCharCode(65 + idx)}</span>
+                        <span>${optText}</span>
+                    </span>
+                    <i class="fa-regular fa-circle text-slate-500 group-hover:text-amber-400"></i>
+                `;
+                btn.onclick = () => handleAnswer(idx, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(selectedIndex, clickedBtn) {
+            const qData = quizState.questions[quizState.currentIndex];
+            const container = document.getElementById('optionsContainer');
+            const buttons = container.querySelectorAll('button');
+
+            buttons.forEach(b => b.disabled = true);
+
+            const isCorrect = selectedIndex === qData.correct;
+            if (isCorrect) {
+                quizState.score++;
+                playSound('correct');
+                clickedBtn.classList.remove('bg-slate-800', 'border-slate-700');
+                clickedBtn.classList.add('bg-emerald-950/90', 'border-emerald-500', 'text-emerald-200');
+            } else {
+                playSound('wrong');
+                clickedBtn.classList.remove('bg-slate-800', 'border-slate-700');
+                clickedBtn.classList.add('bg-rose-950/90', 'border-rose-500', 'text-rose-200');
+
+                const correctBtn = buttons[qData.correct];
+                if (correctBtn) {
+                    correctBtn.classList.remove('bg-slate-800', 'border-slate-700');
+                    correctBtn.classList.add('bg-emerald-950/60', 'border-emerald-500/60', 'text-emerald-300');
+                }
+            }
+
+            const feedbackBox = document.getElementById('feedbackBox');
+            feedbackBox.classList.remove('hidden', 'bg-emerald-900/40', 'border-emerald-600', 'bg-rose-900/40', 'border-rose-600');
+
+            if (isCorrect) {
+                feedbackBox.classList.add('bg-emerald-900/40', 'border-emerald-600', 'text-emerald-200');
+                feedbackBox.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-xl"></i> <div><strong>Prawidłowa odpowiedź!</strong><br/><span class="text-xs font-normal">${qData.exp}</span></div>`;
+            } else {
+                feedbackBox.classList.add('bg-rose-900/40', 'border-rose-600', 'text-rose-200');
+                feedbackBox.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 text-xl"></i> <div><strong>Niestety błąd.</strong><br/><span class="text-xs font-normal">${qData.exp}</span></div>`;
+            }
+
+            document.getElementById('nextQuestionBtn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            playSound('click');
+            quizState.currentIndex++;
+            if (quizState.currentIndex < quizState.questions.length) {
+                renderQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            playSound('win');
+
+            document.getElementById('quizActiveStep').classList.add('hidden');
+            document.getElementById('quizResultStep').classList.remove('hidden');
+
+            const total = quizState.questions.length;
+            const score = quizState.score;
+            const pct = Math.round((score / total) * 100);
+
+            document.getElementById('finalScoreVal').textContent = `${score} / ${total}`;
+            document.getElementById('finalPercentVal').textContent = `${pct}%`;
+
+            let rank = 'Adept Przewodnika 🥉';
+            if (pct >= 90) rank = 'Mistrz Cypru 👑';
+            else if (pct >= 75) rank = 'Ekspert Cypryjski 🥇';
+            else if (pct >= 50) rank = 'Znawca Wyspy 🥈';
+
+            document.getElementById('finalRankVal').textContent = rank;
+
+            // Save Participant into Leaderboard (localStorage)
+            saveParticipant(quizState.userName, quizState.difficulty, score, total, pct, rank);
+
+            generateCertificateCanvas(pct, rank);
+        }
+
+        // Canvas Certificate Generator Engine
+        function generateCertificateCanvas(pct, rank) {
+            const certCanvas = document.getElementById('certificateCanvas');
+            if (!certCanvas) return;
+            const ctx = certCanvas.getContext('2d');
+            const w = certCanvas.width;
+            const h = certCanvas.height;
+
+            // Background Linear Gradient
+            const bgGrad = ctx.createLinearGradient(0, 0, w, h);
+            bgGrad.addColorStop(0, '#0F172A');
+            bgGrad.addColorStop(0.5, '#1E293B');
+            bgGrad.addColorStop(1, '#0F172A');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, w, h);
+
+            // Double Ornamental Gold Borders
+            ctx.strokeStyle = '#D47600';
+            ctx.lineWidth = 8;
+            ctx.strokeRect(16, 16, w - 32, h - 32);
+
+            ctx.strokeStyle = '#F59E0B';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(26, 26, w - 52, h - 52);
+
+            // Corner Accents
+            ctx.fillStyle = '#D47600';
+            ctx.fillRect(10, 10, 24, 24);
+            ctx.fillRect(w - 34, 10, 24, 24);
+            ctx.fillRect(10, h - 34, 24, 24);
+            ctx.fillRect(w - 34, h - 34, 24, 24);
+
+            // Header Texts
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#F59E0B';
+            ctx.font = 'bold 18px "Cinzel", serif';
+            ctx.fillText('REPUBLIKA CYPRYJSKA • TEST WIEDZY I WYZWANIE', w / 2, 70);
+
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'black 36px "Cinzel", serif';
+            ctx.fillText('CERTYFIKAT EKSPERTA', w / 2, 125);
+
+            // Gold Divider
+            ctx.strokeStyle = '#D47600';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(w / 2 - 120, 145);
+            ctx.lineTo(w / 2 + 120, 145);
+            ctx.stroke();
+
+            // Recipient Details
+            ctx.fillStyle = '#94A3B8';
+            ctx.font = '14px "Plus Jakarta Sans", sans-serif';
+            ctx.fillText('Niniejszym zaświadcza się, że:', w / 2, 185);
+
+            ctx.fillStyle = '#FCD34D';
+            ctx.font = 'bold 34px "Cinzel", serif';
+            ctx.fillText(quizState.userName || 'Uczestnik Quizu', w / 2, 235);
+
+            const levelMap = { 
+                medium: 'ŚREDNI (5 PYTAŃ)', 
+                hard: 'TRUDNY (8 PYTAŃ)', 
+                very_hard: 'BARDZO TRUDNY (10 PYTAŃ)', 
+                extreme: 'NAJTRUDNIEJSZY (12 PYTAŃ)' 
+            };
+            const lvlName = levelMap[quizState.difficulty] || quizState.difficulty.toUpperCase();
+
+            ctx.fillStyle = '#E2E8F0';
+            ctx.font = '16px "Plus Jakarta Sans", sans-serif';
+            ctx.fillText(`ukończył(a) test wiedzy na poziomie: ${lvlName}`, w / 2, 285);
+
+            ctx.fillStyle = '#38BDF8';
+            ctx.font = 'bold 20px "Plus Jakarta Sans", sans-serif';
+            ctx.fillText(`Wynik: ${quizState.score}/${quizState.questions.length} (${pct}%) — Tytuł: ${rank}`, w / 2, 330);
+
+            // Seal Graphic Stamp
+            const sealX = w / 2;
+            const sealY = 430;
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(sealX, sealY, 45, 0, Math.PI * 2);
+            ctx.fillStyle = '#D47600';
+            ctx.fill();
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#FEF3C7';
+            ctx.stroke();
+
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 11px "Cinzel", serif';
+            ctx.fillText('CYPRUS', sealX, sealY - 8);
+            ctx.fillText('SEAL OF EXCELLENCE', sealX, sealY + 8);
+            ctx.fillText('2026', sealX, sealY + 22);
+            ctx.restore();
+
+            // Footer Signatures
+            ctx.textAlign = 'left';
+            ctx.fillStyle = '#64748B';
+            ctx.font = '13px "Plus Jakarta Sans", sans-serif';
+            const today = new Date().toLocaleDateString('pl-PL');
+            ctx.fillText(`Data: ${today}`, 50, 490);
+
+            ctx.textAlign = 'right';
+            ctx.fillText('Podpis: Cypr Explorer Board 🇨🇾', w - 50, 490);
+        }
+
+        function downloadCertificate() {
+            playSound('click');
+            const certCanvas = document.getElementById('certificateCanvas');
+            if (!certCanvas) return;
+
+            const imageURI = certCanvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = `Certyfikat_Cypr_${(quizState.userName || 'Uczestnik').replace(/\s+/g, '_')}.png`;
+            link.href = imageURI;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function restartQuiz() {
+            playSound('click');
+            document.getElementById('quizResultStep').classList.add('hidden');
+            document.getElementById('quizSetupStep').classList.remove('hidden');
+        }
+
+        // Leaderboard LocalStorage functions
+        function getParticipants() {
+            try {
+                const stored = localStorage.getItem('cyprus_quiz_participants');
+                return stored ? JSON.parse(stored) : [];
+            } catch(e) {
+                return [];
+            }
+        }
+
+        function saveParticipant(name, difficulty, score, total, pct, rank) {
+            const list = getParticipants();
+            const levelNames = { 
+                medium: 'Średni (5p)', 
+                hard: 'Trudny (8p)', 
+                very_hard: 'Bardzo Trudny (10p)', 
+                extreme: 'Najtrudniejszy (12p)' 
+            };
+            
+            const newEntry = {
+                id: Date.now(),
+                name: name,
+                difficulty: levelNames[difficulty] || difficulty,
+                score: `${score}/${total}`,
+                pct: pct,
+                rank: rank,
+                date: new Date().toLocaleDateString('pl-PL') + ' ' + new Date().toLocaleTimeString('pl-PL', {hour: '2-digit', minute:'2-digit'})
+            };
+
+            list.unshift(newEntry);
+            try {
+                localStorage.setItem('cyprus_quiz_participants', JSON.stringify(list.slice(0, 50)));
+            } catch(e) {}
+            renderLeaderboard();
+        }
+
+        function renderLeaderboard() {
+            const tbody = document.getElementById('leaderboardTableBody');
+            const emptyMsg = document.getElementById('emptyLeaderboardMsg');
+            if (!tbody) return;
+
+            const list = getParticipants();
+            tbody.innerHTML = '';
+
+            if (list.length === 0) {
+                emptyMsg?.classList.remove('hidden');
+                return;
+            }
+            emptyMsg?.classList.add('hidden');
+
+            list.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.className = index % 2 === 0 ? 'bg-white hover:bg-slate-50' : 'bg-slate-50/50 hover:bg-slate-100/50';
+                
+                let badgeClass = 'bg-slate-100 text-slate-700';
+                if (item.pct >= 90) badgeClass = 'bg-amber-100 text-amber-800 font-bold border border-amber-300';
+                else if (item.pct >= 70) badgeClass = 'bg-emerald-100 text-emerald-800 font-semibold';
+
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-bold text-slate-400">#${index + 1}</td>
+                    <td class="py-3 px-4 font-bold text-slate-900">${item.name}</td>
+                    <td class="py-3 px-4 text-xs font-semibold text-slate-600"><span class="px-2.5 py-1 bg-slate-200/70 rounded-md">${item.difficulty}</span></td>
+                    <td class="py-3 px-4 font-bold text-amber-600">${item.score} (${item.pct}%)</td>
+                    <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-full text-xs ${badgeClass}">${item.rank}</span></td>
+                    <td class="py-3 px-4 text-xs text-slate-400 text-right">${item.date}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function clearLeaderboard() {
+            if (confirm('Czy na pewno chcesz wyczyścić historię wszystkich uczestników?')) {
+                localStorage.removeItem('cyprus_quiz_participants');
+                renderLeaderboard();
+            }
+        }
+
+        window.addEventListener('load', () => {
+            selectDifficulty('medium');
+            renderLeaderboard();
+        });
     </script>
 </body>
 </html>
